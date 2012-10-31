@@ -22,7 +22,7 @@ setup()
 	done
 
 	for i in  $COPIED_FILES; do
-		sudo cp $i ${SQUASHFS}/${i}
+		sudo cp -r $i ${SQUASHFS}/${i}
 	done
 }
 
@@ -34,7 +34,7 @@ teardown()
 	done
 
 	for i in  $COPIED_FILES; do
-		sudo rm ${SQUASHFS}/$i
+		sudo rm -r ${SQUASHFS}/$i
 	done
 
 }
