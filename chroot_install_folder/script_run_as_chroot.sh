@@ -5,20 +5,22 @@ cd $(dirname $(readlink -f $0))
 
 # Run this as root
 
-PACKET_INSTALL="build-essential python2.7 git sshfs vim gnuplot gstreamer0.10-ffmpeg gstreamer0.10-plugins-bad gperf tk ant openjdk-6-jdk subversion"
+PACKET_INSTALL="build-essential \
+	python2.7 git sshfs vim gnuplot\
+	gstreamer0.10-ffmpeg gstreamer0.10-plugins-bad gperf tk ant openjdk-6-jdk "
 
 set -x
 
 # install
 apt-get update
-apt-get upgrade
+# apt-get dist-upgrade
 apt-get install $PACKET_INSTALL
 
 # Install VBOX addition
-sh VBoxLinuxAdditions.run
+# sh VBoxLinuxAdditions.run
 
 # rename User
-sed -i '/USERNAME/ s/".*"/"fit-senslab"/' /etc/casper.conf
+# sed -i '/USERNAME/ s/".*"/"fit-senslab"/' /etc/casper.conf
 
 
 
