@@ -13,17 +13,17 @@ set -xe
 
 # install
 apt-get update
-# apt-get dist-upgrade
+apt-get upgrade
 apt-get install $PACKET_INSTALL
 
 # Install VBOX addition
 # sh VBoxLinuxAdditions.run
 
 # rename User
-sed -i 's/USERNAME=.*/USERNAME="tuto"/' /etc/casper.conf
+sed -i 's/USERNAME=.*/USERNAME="tuto"/'     /etc/casper.conf
 sed -i 's/HOST=.*/HOST="live-fit-senslab"/' /etc/casper.conf
-sed -i '/^export FLAVOUR/d' /etc/casper.conf
-echo 'export FLAVOUR="fit-senslab"' > /etc/casper.conf
+sed -i '/^export FLAVOUR/d'                 /etc/casper.conf
+echo 'export FLAVOUR="fit-senslab"'      >> /etc/casper.conf
 
 
 
