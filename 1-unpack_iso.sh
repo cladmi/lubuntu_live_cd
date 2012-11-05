@@ -9,9 +9,13 @@ SQUASHFS="squashfs"
 CDROM="/media/cdrom"
 
 
+
+
+
 init()
 {
 	mkdir $ISO_F $SQUASHFS
+	wget -c http://cdimages.ubuntu.com/lubuntu/releases/12.04/release/lubuntu-12.04-desktop-i386.iso
 }
 clean()
 {

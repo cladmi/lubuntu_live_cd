@@ -8,6 +8,13 @@ CDROM="/media/cdrom"
 set -xe
 
 
+MSP=msp430-z1.tar.gz
+wget http://downloads.sourceforge.net/project/zolertia/Toolchain/msp430-z1.tar.gz -O $MSP
+mkdir -p root/opt
+tar   -C root/opt -xzvf $MSP
+
+sudo cp -r root/* $SQUASHFS
+
 sudo rm -f $ISO_F/casper/filesystem.squashfs
 
 sudo chmod a+w $ISO_F/casper/filesystem.manifest
