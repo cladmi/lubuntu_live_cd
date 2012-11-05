@@ -9,7 +9,7 @@ PACKET_INSTALL="build-essential \
 	python2.7 git sshfs vim gnuplot\
 	gstreamer0.10-ffmpeg gstreamer0.10-plugins-bad gperf tk ant openjdk-6-jdk "
 
-set -x
+set -xe
 
 # install
 apt-get update
@@ -20,18 +20,20 @@ apt-get install $PACKET_INSTALL
 # sh VBoxLinuxAdditions.run
 
 # rename User
-# sed -i '/USERNAME/ s/".*"/"fit-senslab"/' /etc/casper.conf
+sed -i 's/USERNAME=.*/USERNAME="tuto"/' /etc/casper.conf
+sed -i 's/HOST=.*/HOST="live-fit-senslab"/' /etc/casper.conf
+sed -i '/^export FLAVOUR/d' /etc/casper.conf
+echo 'export FLAVOUR="fit-senslab"' > /etc/casper.conf
 
 
 
 # User Home modifications
 cd /etc/skel
 
-
 FIRST="#_BEGIN_FIT_SENSLAB_LINES"
 PROFILE_ADD='# set PATH to includes mspgcc bin if it exists
-if [ -d "/opt/mspgcc/bin" ] ; then
-	PATH="$PATH:/opt/mspgcc/bin"
+if [ -d "/opt/msp430-z1/bin" ] ; then
+	PATH="$PATH:/opt/msp430-z1/bin"
 fi'
 LAST="#_END_FIT_SENSLAB_LINES"
 

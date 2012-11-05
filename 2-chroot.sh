@@ -43,7 +43,9 @@ teardown
 set -e
 setup
 echo "Do all your modifications and then quit with 'exit'"
+set +e
 sudo chroot $SQUASHFS
+set -e
 
 teardown
 exit 0
