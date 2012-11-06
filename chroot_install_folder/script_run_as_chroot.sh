@@ -7,7 +7,7 @@ cd $(dirname $(readlink -f $0))
 
 PACKET_INSTALL="build-essential \
 	python2.7 git sshfs vim gnuplot\
-	gstreamer0.10-ffmpeg gstreamer0.10-plugins-bad gperf tk ant openjdk-6-jdk \
+	gstreamer0.10-ffmpeg gstreamer0.10-plugins-bad gperf\
 	python-pip python-argparse"
 
 set -xe
@@ -20,7 +20,12 @@ apt-get install $PACKET_INSTALL
 
 apt-get remove --purge $(dpkg-query -W --showformat='${Package}\n' | grep language-pack | egrep -v '\-en' | egrep -v '\-fr')
 
+
+echo "Europe/Paris" > /etc/timezone
+dpkg-reconfigure -f noninteractive tzdata
+
 # Install VBOX addition
+# Cause autologin to fail
 # sh VBoxLinuxAdditions.run
 
 # rename User
