@@ -8,10 +8,20 @@ CDROM="/media/cdrom"
 set -xe
 
 
+# MSPGCC
 MSP=msp430-z1.tar.gz
 wget http://downloads.sourceforge.net/project/zolertia/Toolchain/msp430-z1.tar.gz -O $MSP
 mkdir -p root/opt
 tar   -C root/opt -xzvf $MSP
+
+PREV=$(pwd)
+cd  $SQUASHFS/etc/skel
+[ -d fit-eco ] || sudo git clone git://scm.gforge.inria.fr/fit-eco/fit-eco.git
+cd fit-eco
+sudo git checkout fit_versions
+cd $PREV
+
+
 
 sudo cp -r root/* $SQUASHFS
 
@@ -40,4 +50,8 @@ cd ..
 
 
 sudo mkisofs -r -V "Custom Ubuntu Live CD" -cache-inodes -J -l -b isolinux/isolinux.bin -c isolinux/boot.cat -no-emul-boot -boot-load-size 4 -boot-info-table -o custom-live-cd-i386.iso $ISO_F
+
+
+sudo isohybrid custom-live-cd-i386.iso
+
 
