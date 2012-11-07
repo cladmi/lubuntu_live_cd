@@ -13,7 +13,7 @@ PACKET_INSTALL="build-essential \
 
 set -xe
 
-apt-get remove --purge $(dpkg-query -W --showformat='${Package}\n' | grep language-pack | egrep -v '\-en' | egrep -v '\-fr')
+apt-get remove --purge $(dpkg-query -W --showformat='${Package}\n' | grep -e language-pack -e firefox-locale| egrep -v '\-en' | egrep -v '\-fr')
 
 # install
 apt-get update
