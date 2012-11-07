@@ -12,13 +12,15 @@ PACKET_INSTALL="build-essential \
 
 set -xe
 
+apt-get remove --purge $(dpkg-query -W --showformat='${Package}\n' | grep language-pack | egrep -v '\-en' | egrep -v '\-fr')
+
 # install
 apt-get update
 apt-get upgrade
 apt-get install $PACKET_INSTALL
+apt-get autoremove
 
 
-apt-get remove --purge $(dpkg-query -W --showformat='${Package}\n' | grep language-pack | egrep -v '\-en' | egrep -v '\-fr')
 
 
 echo "Europe/Paris" > /etc/timezone
@@ -26,7 +28,15 @@ dpkg-reconfigure -f noninteractive tzdata
 
 # Install VBOX addition
 # Cause autologin to fail
-# sh VBoxLinuxAdditions.run
+
+cp /bin/uname /bin/uname.real
+cp uname /bin/uname
+
+sh VBoxLinuxAdditions.run
+usermod -u 501 vboxadd
+
+mv /bin/uname.real /bin/uname
+
 
 # rename User
 sed -i 's/USERNAME=.*/USERNAME="tuto"/'     /etc/casper.conf
