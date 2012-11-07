@@ -8,7 +8,8 @@ cd $(dirname $(readlink -f $0))
 PACKET_INSTALL="build-essential \
 	python2.7 git sshfs vim gnuplot\
 	gstreamer0.10-ffmpeg gstreamer0.10-plugins-bad gperf\
-	python-pip python-argparse"
+	python-pip python-argparse\
+	dkms"
 
 set -xe
 
