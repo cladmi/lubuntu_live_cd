@@ -1,2 +1,19 @@
-#!/bin/sh
-/bin/uname.real $@ | sed 's/x86_64/i686/g' | sed 's/3.2.0[^ ]*/3.2.0-23-generic/g'
+#!/bin/bash
+
+REAL_UNAME_BIN="/bin/uname.real"
+
+DEST_PROCESSOR="i386"
+DEST_KERNEL=$(basename $(readlink -e /initrd.img) | sed 's/initrd.img-//')
+
+PROCESSOR=$($REAL_UNAME_BIN -p)
+KERNEL=$($REAL_UNAME_BIN -r)
+
+
+if [[ "x${DEST_KERNEL}" == "x" ]];
+then
+	echo "Error, destination kernel version not found" >&2
+	echo "Value that should be put as result for 'uname -r'" >&2
+	exit -1
+fi
+
+$REAL_UNAME_BIN $@ | sed "s/$KERNEL/$DEST_KERNEL/g; s/$PROCESSOR/$DEST_PROCESSOR/g"
