@@ -4,24 +4,6 @@ set -xe
 
 source common.source
 
-# MSPGCC
-MSP=msp430-z1.tar.gz
-wget http://downloads.sourceforge.net/project/zolertia/Toolchain/msp430-z1.tar.gz -O $MSP
-mkdir -p root/opt
-tar   -C root/opt -xzvf $MSP
-
-PREV=$(pwd)
-cd  $SQUASHFS/etc/skel
-[ -d fit-eco ] || sudo git clone git://scm.gforge.inria.fr/fit-eco/fit-eco.git
-cd fit-eco
-sudo git checkout fit_versions
-cd $PREV
-
-sudo cp -r root/* $SQUASHFS
-
-
-
-
 sudo rm -f $ISO_F/casper/filesystem.squashfs
 
 sudo chmod a+w $ISO_F/casper/filesystem.manifest
