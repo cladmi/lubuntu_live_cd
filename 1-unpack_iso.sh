@@ -2,15 +2,7 @@
 
 set -x
 
-
-LIVECD="lubuntu-12.04-desktop-i386.iso"
-ISO_F="iso"
-SQUASHFS="squashfs"
-CDROM="/media/cdrom"
-
-
-
-
+source common.source
 
 init()
 {

@@ -1,12 +1,8 @@
 #! /bin/bash
 
-LIVECD="lubuntu-12.04-desktop-i386.iso"
-ISO_F="iso"
-SQUASHFS="squashfs"
-CDROM="/media/cdrom"
-
 set -xe
 
+source common.source
 
 # MSPGCC
 MSP=msp430-z1.tar.gz
