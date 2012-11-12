@@ -1,4 +1,4 @@
-#! /bin/sh
+#! /bin/bash
 
 LIVECD="lubuntu-12.04-desktop-i386.iso"
 ISO_F="iso"
@@ -41,8 +41,33 @@ cd $SQUASHFS
 sudo mksquashfs . ../$ISO_F/casper/filesystem.squashfs -info
 cd -
 
-sudo cp $SQUASHFS/boot/initrd.img-3.2.0-23-generic iso/casper/initrd.lz
-# sudo cp $SQUASHFS/boot/vmlinuz iso/casper/vmlinuz
+
+# initrd file format == /boot/initrd-img.XXXXX == on the host system
+# we modify the output to find the link on the live CD
+SQUASH_INITRD_FILE=$(readlink -f $SQUASHFS/initrd.img | sed "s#^#$SQUASHFS/#")
+# no error acceptable
+INITRD_FILE=$(readlink -e $SQUASH_INITRD_FILE || echo "")
+VMLINUZ_FILE=$(readlink -e $SQUASHFS/vmlinuz || echo "")
+
+if [[ "x$INITRD_FILE" != "x" ]]
+then
+	echo "initrd.lz file exist"
+	sudo cp $INITRD_FILE iso/casper/initrd.lz
+else
+	# there must be an initrd.lz file !
+	echo "ERROR no initrd.lz file found"
+	exit -1
+fi
+if [[ "x$VMLINUZ_FILE" != "x" ]]
+then
+	echo "vmlinux file exist"
+	sudo cp $SQUASHFS/boot/vmlinuz iso/casper/vmlinuz
+else
+	# there may not be any vmlinuz file if no dist-upgrade is done
+	echo "No vmlinuz file, OK, continuing"
+fi
+
+read DUMMY
 
 cd $ISO_F
 sudo bash -c "find . -path ./isolinux -prune -o -type f -not -name md5sum.txt -print0 | xargs -0 md5sum | tee md5sum.txt"
