@@ -2,8 +2,9 @@
 
 cd $(dirname $(readlink -f $0))
 
+set -xe
 
-# Run this as root
+# This is run as root
 
 PACKET_INSTALL="build-essential \
 	python2.7 git sshfs vim gnuplot\
@@ -11,32 +12,30 @@ PACKET_INSTALL="build-essential \
 	python-pip python-argparse\
 	dkms"
 
-set -xe
+PACKAGE_REMOVE=$(dpkg-query -W --showformat='${Package}\n' | \
+	grep -e language-pack -e firefox-locale | \
+	egrep -v '\-en' | egrep -v '\-fr')
 
-apt-get remove --purge $(dpkg-query -W --showformat='${Package}\n' | grep -e language-pack -e firefox-locale| egrep -v '\-en' | egrep -v '\-fr')
 
+# prerequisite, hide chroot host environment
+cp /bin/uname /bin/uname.real
+cp uname /bin/uname
+
+apt-get remove --purge "$PACKAGE_REMOVE"
 # install
 apt-get update
-apt-get upgrade
+apt-get upgrade # maybe dist-upgrade later
 apt-get install $PACKET_INSTALL
 apt-get autoremove
 
 
+# Install VBOX addition
+sh VBoxLinuxAdditions.run
+usermod -u 501 vboxadd  # Fix autologin fail
 
-
+# TimeZone, the same as servers
 echo "Europe/Paris" > /etc/timezone
 dpkg-reconfigure -f noninteractive tzdata
-
-# Install VBOX addition
-# Cause autologin to fail
-
-cp /bin/uname /bin/uname.real
-cp uname /bin/uname
-
-sh VBoxLinuxAdditions.run
-usermod -u 501 vboxadd
-
-mv /bin/uname.real /bin/uname
 
 
 # rename User
@@ -46,26 +45,25 @@ sed -i '/^export FLAVOUR/d'                 /etc/casper.conf
 echo 'export FLAVOUR="fit-senslab"'      >> /etc/casper.conf
 
 
-
 # senslabcli
 pip install requests
-cd /tmp
 wget http://www.senslab.info/alpha/senslabcli-1.0.tar.gz
 tar xzvf  senslabcli-1.0.tar.gz
 cd senslabcli-1.0
 python setup.py install
-
+cd -
 
 
 # User Home modifications
 cd /etc/skel
 
 FIRST="#_BEGIN_FIT_SENSLAB_LINES"
+LAST="#_END_FIT_SENSLAB_LINES"
+
 PROFILE_ADD='# set PATH to includes mspgcc bin if it exists
 if [ -d "/opt/msp430-z1/bin" ] ; then
 	PATH="$PATH:/opt/msp430-z1/bin"
 fi'
-LAST="#_END_FIT_SENSLAB_LINES"
 
 sed -i "/$FIRST/,/$LAST/d" .profile
 echo "$FIRST" >> .profile
@@ -89,10 +87,11 @@ echo "$LAST" >> .bashrc
 cd -
 
 
-
 # clean before closing
 apt-get clean
+mv /bin/uname.real /bin/uname
 
+# repack initrd
 update-initramfs -k all -u
 
-cd -
+
