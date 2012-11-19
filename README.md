@@ -6,7 +6,7 @@ Execute the scripts in the following order
 * 1-unpack_iso.sh
 * 2-chroot.sh
     * From the chrooted environment:
-    * run your personnal update commands
+    * run your personal update commands
     * /chroot_install_folder/script_run_as_chroot.sh
 * 3-copy_static_files.sh
 * 4-repack_iso.sh
@@ -15,15 +15,19 @@ Execute the scripts in the following order
 Blocking steps
 --------------
 
+I updated the documentation on the Ubuntu English and French wikis to correct errors I got. So errors mentioned here are already solved in the documentation.
+
 ### casper.conf ###
 
 The documentation on liveCDcustomization used an out of date /etc/casper.conf and did not mention the `FLAVOUR` command that must be set in order to take the other variables into account.
+
+It should be set to something
 
 	# This file should go in /etc/casper.conf
 	# Supported variables are:
 	# USERNAME, USERFULLNAME, HOST, BUILD_SYSTEM, FLAVOUR
 
-	export USERNAME="ubuntu"
+	export USERNAME="custom-username"
 	export USERFULLNAME="Live session user"
 	export HOST="ubuntu"
 	export BUILD_SYSTEM="Ubuntu"
@@ -32,7 +36,7 @@ The documentation on liveCDcustomization used an out of date /etc/casper.conf an
 	# flavour string acquired at boot time, unless you set FLAVOUR to any
 	# non-empty string.
 
-	# export FLAVOUR="Ubuntu"
+	export FLAVOUR="MyLiveCD"
 
 
 ### Installing virtual box guest additions breaks startup ###
@@ -54,17 +58,26 @@ So, I changed the uid for 501 with the command:
 
 	usermod -u 501 vboxadd
 
-
+The English Ubuntu Wiki mentioned to pay attention to users with UID > 999, but did not include 999. And I removed the mention to UID > 999 as it has no reason to exist anymore.
 
 ### Compiling VBoxGuestAdditions on a different architecture and kernel version ###
 
 When compiling the vbox module, the system rely on the result of `uname` command.
-But, on a chrooted environment, the value return are the one of the host computer.
+But, on a `chrooted` environment, the value return are the one of the host computer.
 
-As the PATH is somehow manipulated during the execution, the easiest solution was to overwrite the regular `/bin/uname` with a script that does
+As the PATH is somehow manipulated during the execution, the easiest solution was to overwrite the regular `/bin/uname` with a script that basically does
 
 	/bin/uname.real $@ | sed "s/$KERNEL/$DEST_KERNEL/g; s/$PROCESSOR/$DEST_PROCESSOR/g"
 
 The complete `uname` script can be found in the `chroot_install_folder` directory.
+
+
+## Links ##
+
+Ubuntu customization scripts:
+* https://help.ubuntu.com/community/LiveCDCustomization
+* http://doc.ubuntu-fr.org/personnaliser_livecd
+uname idea found here:
+* ttps://github.com/aix27249/chroot_scripts/blob/master/fake-uname/uname
 
 
