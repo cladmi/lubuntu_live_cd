@@ -1,5 +1,9 @@
-Create SensLAB liveCD
-=====================
+Create Custom liveCD
+====================
+
+This are the scripts used to create a live cd for the SensLab platform.
+
+Githubers interest is the content of the scripts and the problems I got and how they got solved.
 
 Creating a customized livecd
 ----------------------------
@@ -89,7 +93,8 @@ The complete `uname` script can be found in the `chroot_install_folder` director
 Ubuntu customization scripts:
 * https://help.ubuntu.com/community/LiveCDCustomization
 * http://doc.ubuntu-fr.org/personnaliser_livecd
+
 uname idea found here:
-* ttps://github.com/aix27249/chroot_scripts/blob/master/fake-uname/uname
+* https://github.com/aix27249/chroot_scripts/blob/master/fake-uname/uname
 
 
