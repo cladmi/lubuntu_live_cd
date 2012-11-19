@@ -1,4 +1,6 @@
 LIVECD="lubuntu-12.04-desktop-i386.iso"
+LIVECD_URL="http://cdimages.ubuntu.com/lubuntu/releases/12.04/release/lubuntu-12.04-desktop-i386.iso"
+
 ISO_F="iso"
 SQUASHFS="squashfs"
 CDROM="/media/cdrom"

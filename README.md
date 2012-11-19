@@ -1,6 +1,9 @@
 Create SensLAB liveCD
 =====================
 
+Creating a customized livecd
+----------------------------
+
 Execute the scripts in the following order
 
 * 1-unpack_iso.sh
@@ -11,6 +14,15 @@ Execute the scripts in the following order
 * 3-copy_static_files.sh
 * 4-repack_iso.sh
 
+
+Personalization, what to do before using
+----------------------------------------
+
+1. Update the common.source to set the correct livecd url and the directories
+2. Personalize the content of `chroot_install_folder/script_run_as_chroot.sh`
+3. Personalize the content of `3-copy_static_files.sh`
+4. Add files to copy on the livecd in `root` folder. Files in `root/etc/skel` will be copied in the user home directory.
+5. Update the version of `chroot_install_folder/VBoxLinuxAdditions.run`
 
 Blocking steps
 --------------
