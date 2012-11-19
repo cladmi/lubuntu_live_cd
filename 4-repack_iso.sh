@@ -4,6 +4,11 @@ set -xe
 
 source common.source
 
+# test that commands are installed
+for prog in "mkisofs" "isohybrid" "mksquashfs" ; do
+	sudo which $prog || echo "'$prog' is required, please install it"
+done
+
 update_squashfs() {
 	sudo rm -f $ISO_F/casper/filesystem.squashfs
 

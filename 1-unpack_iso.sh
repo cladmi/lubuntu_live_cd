@@ -4,6 +4,11 @@ set -x
 
 source common.source
 
+# test that commands are installed
+for prog in "wget"; do
+	which $prog || echo "'$prog' is required, please install it"
+done
+
 init()
 {
 	mkdir $ISO_F $SQUASHFS

@@ -3,6 +3,11 @@
 set -xe
 source common.source
 
+# test that commands are installed
+for prog in "git"; do
+	which $prog || echo "'$prog' is required, please install it"
+done
+
 install_mspgcc() {
 	MSP=msp430-z1.tar.gz
 	wget http://downloads.sourceforge.net/project/zolertia/Toolchain/$MSP -O $MSP
