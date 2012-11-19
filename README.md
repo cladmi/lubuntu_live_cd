@@ -11,3 +11,6 @@ Execute the scripts in the following order
 * 3-copy_static_files.sh
 * 4-repack_iso.sh
 
+
+Blocking steps
+--------------
