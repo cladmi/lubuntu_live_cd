@@ -37,6 +37,7 @@ unpack_squashfs()
 }
 
 clean
+
 init
 unpack_iso
 unpack_squashfs
