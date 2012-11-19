@@ -1,9 +1,12 @@
 Create Custom liveCD
 ====================
 
+Date: 2012-11-19
+
 This are the scripts used to create a live cd for the SensLab platform.
 
 Githubers interest is the content of the scripts and the problems I got and how they got solved.
+The scripts will likely not be maintained in the future.
 
 Creating a customized livecd
 ----------------------------
