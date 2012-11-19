@@ -21,7 +21,7 @@ update_squashfs() {
 	sudo chmod go-w $ISO_F/casper/filesystem.manifest-desktop
 
 	cd $SQUASHFS
-	sudo mksquashfs . ../$ISO_F/casper/filesystem.squashfs -info
+	sudo mksquashfs . ../$ISO_F/casper/filesystem.squashfs
 	cd -
 }
 
